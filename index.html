@@ -31,7 +31,7 @@
               <br/>
             </md-radio-button>
           </md-radio-group>
-          <ng-csv-import content="csv.content" header="csv.header" separator="csv.separator" result="csv.result"></ng-csv-import>
+          <ng-csv-import content="csv.content" header="csv.header" separator="csv.separator" result="csv.result" accept="csv.accept"></ng-csv-import>
           <p ng-if="badExtension">Bad Extension: <strong>{{fileExtension}}</strong></p>
 
           <div ng-if="hasErrors">

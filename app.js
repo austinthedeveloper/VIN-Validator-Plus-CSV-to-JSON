@@ -5,7 +5,8 @@ app
 
     $scope.csv = {
       "separator": "\t",
-      "header": true
+      "header": true,
+      "accept": ".txt,.csv"
     };
 
     $scope.radioData = [{
