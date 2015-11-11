@@ -24,19 +24,23 @@ app
       value: "csv"
     }];
 
-    $scope.vinPattern = /^[\d\w]+$/;
+    var vinPattern = /^[\d\w]+$/;
 
-    $scope.fileEach = function(object) {
-      var patt = new RegExp($scope.vinPattern);
+    $scope.$watch('csv.result', function(newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        getFileInfo(newVal);
+        checkExtension(newVal);
+      }
+    });
+
+    function fileEach(object) {
+      var patt = new RegExp(vinPattern);
       var sliced = [];
 
       $scope.hasErrors = false;
       $scope.isClean = false;
 
-      $scope.indexes = [];
-      for (var index in object[0]) {
-        $scope.indexes.push(index);
-      }
+      getHeaders(object[0]);
 
       object.forEach(function(item, index, obj) {
         item.VIN = item.VIN.split(' ').join('');
@@ -44,30 +48,34 @@ app
           sliced.push(index);
         }
       });
+
       if (sliced.length) {
         $scope.sliced = sliced;
         $scope.hasErrors = true;
       } else {
         $scope.isClean = true;
       }
-    };
+    }
 
+    function getFileInfo(object) {
+      $scope.fileExtension = object.filename.split('.').pop().toLowerCase();
+      $scope.fileName = object.filename.replace(/\.[^/.]+$/, "");
+    }
 
-    $scope.$watch('csv.result', function(newVal, oldVal) {
-      if (newVal && newVal !== oldVal) {
-
-        $scope.fileExtension = newVal.filename.split('.').pop().toLowerCase();
-        $scope.fileName = newVal.filename.replace(/\.[^/.]+$/, "");
-
-        $scope.badExtension = false;
-        if ($scope.fileExtension === 'csv' || $scope.fileExtension === 'txt') {
-          $scope.fileEach(newVal);
-        } else {
-          $scope.badExtension = true;
-        }
+    function checkExtension(object) {
+      $scope.badExtension = false;
+      if ($scope.fileExtension === 'csv' || $scope.fileExtension === 'txt') {
+        fileEach(object);
+      } else {
+        $scope.badExtension = true;
       }
-    });
+    }
 
-
+    function getHeaders(object) {
+      $scope.indexes = [];
+      for (var index in object) {
+        $scope.indexes.push(index);
+      }
+    }
 
   });
