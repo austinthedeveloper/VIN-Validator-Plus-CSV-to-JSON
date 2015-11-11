@@ -25,13 +25,13 @@
       <md-card-content>
         <form name="csvForm">
           <h2 class="md-title">CSV/TXT to JSON</h2>
-         <!-- <md-radio-group ng-model="csvType" class="md-primary">
+         <md-radio-group ng-model="csv.separator" class="md-primary">
              <md-radio-button ng-repeat="d in radioData"
                               ng-value="d.value"
                               ng-class="{'md-align-top-left': $index==1}" >
                  {{ d.label }}<br/>
              </md-radio-button>
-         </md-radio-group> -->
+         </md-radio-group>
           <ng-csv-import content="csv.content" 
           header="csv.header" 
           separator="csv.separator" 
@@ -66,10 +66,10 @@
                     <div ng-show="csvForm.{{'vin' + $index}}.$invalid">Invalid</div>
                   </td>
                   <td>
-                    <md-button class="md-raised md-primary" ng-click="open = true">More Info</md-button>
+                    <md-button class="md-raised md-primary" ng-click="open = !open">More Info</md-button>
                   </td>
                 </tr>
-                <tr ng-show="open">
+                <tr ng-if="open">
                   <td colspan="4">
                     <div  layout="column">
                       <md-input-container flex ng-repeat="obj in indexes">
@@ -81,14 +81,11 @@
                 </tr>
               </tbody>
             </table>
-            <md-button class="md-raised md-primary" ng-csv="csv.result" filename="{{csv.result.filename}}" csv-header="indexes" ng-disabled="csvForm.$invalid">Submit</md-button>
+            <md-button class="md-raised md-primary" ng-csv="csv.result" filename="{{csv.result.filename}}" csv-header="indexes" field-separator="{{csv.separator}}" ng-disabled="csvForm.$invalid">Submit</md-button>
           </div>
           <div ng-if="isClean">
             <p>Your VIN's are all valid!</p>
           </div>
-
-          <pre>{{sliced | json}}</pre>
-          {{indexes}}
         </form>
       </md-card-content>
     </md-card>

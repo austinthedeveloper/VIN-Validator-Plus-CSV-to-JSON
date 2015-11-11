@@ -4,11 +4,9 @@ app
   .controller("DemoController", function($scope, $http){
 
     $scope.csv = {
-      "separator": ",",
+      "separator": "\t",
       "header": true
     };
-    
-    $scope.csvType = ",";
     
     $scope.radioData = [
       { label: 'Comma', value: "," },
