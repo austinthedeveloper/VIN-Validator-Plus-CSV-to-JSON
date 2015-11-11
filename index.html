@@ -68,9 +68,9 @@
                 <tr ng-if="open">
                   <td colspan="4">
                     <div layout="column">
-                      <md-input-container flex ng-repeat="obj in indexes">
-                        <label>{{obj}}</label>
-                        <input name="{{obj}}{{$index}}" model="csv.result[result].{{obj}}">
+                      <md-input-container flex ng-repeat="(key, value) in data = (csv.result[result])">
+                        <label>{{key}}</label>
+                        <input name="{{key}}{{$index}}" ng-model="data[key]">
                       </md-input-container>
                     </div>
                   </td>
