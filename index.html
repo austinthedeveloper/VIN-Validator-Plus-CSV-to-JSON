@@ -11,10 +11,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-messages.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.js"></script>
-  
+
   <script src="csv.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-csv/0.3.6/ng-csv.js"></script>
-  
+
   <link rel="stylesheet" href="style.css" />
   <script src="app.js"></script>
 </head>
@@ -25,19 +25,15 @@
       <md-card-content>
         <form name="csvForm">
           <h2 class="md-title">CSV/TXT to JSON</h2>
-         <md-radio-group ng-model="csv.separator" class="md-primary">
-             <md-radio-button ng-repeat="d in radioData"
-                              ng-value="d.value"
-                              ng-class="{'md-align-top-left': $index==1}" >
-                 {{ d.label }}<br/>
-             </md-radio-button>
-         </md-radio-group>
-          <ng-csv-import content="csv.content" 
-          header="csv.header" 
-          separator="csv.separator" 
-          result="csv.result"></ng-csv-import>
+          <md-radio-group ng-model="csv.separator" class="md-primary">
+            <md-radio-button ng-repeat="d in radioData" ng-value="d.value" ng-class="{'md-align-top-left': $index==1}">
+              {{ d.label }}
+              <br/>
+            </md-radio-button>
+          </md-radio-group>
+          <ng-csv-import content="csv.content" header="csv.header" separator="csv.separator" result="csv.result"></ng-csv-import>
           <p ng-if="badExtension">Bad Extension: <strong>{{fileExtension}}</strong></p>
-          
+
           <div ng-if="hasErrors">
             <p>VIN's must have a length of 17 characters and do not include special characters.</p>
             <table>
@@ -71,7 +67,7 @@
                 </tr>
                 <tr ng-if="open">
                   <td colspan="4">
-                    <div  layout="column">
+                    <div layout="column">
                       <md-input-container flex ng-repeat="obj in indexes">
                         <label>{{obj}}</label>
                         <input name="{{obj}}{{$index}}" model="csv.result[result].{{obj}}">
@@ -81,7 +77,13 @@
                 </tr>
               </tbody>
             </table>
-            <md-button class="md-raised md-primary" ng-csv="csv.result" filename="{{csv.result.filename}}" csv-header="indexes" field-separator="{{csv.separator}}" ng-disabled="csvForm.$invalid">Submit</md-button>
+            <md-radio-group ng-model="fileExtension" class="md-primary">
+              <md-radio-button ng-repeat="d in fileData" ng-value="d.value" ng-class="{'md-align-top-left': $index==1}">
+                {{ d.label }}
+                <br/>
+              </md-radio-button>
+            </md-radio-group>
+            <md-button class="md-raised md-primary" ng-csv="csv.result" filename="{{fileName}}.{{fileExtension}}" csv-header="indexes" field-separator="{{csv.separator}}" ng-disabled="csvForm.$invalid">Submit</md-button>
           </div>
           <div ng-if="isClean">
             <p>Your VIN's are all valid!</p>
