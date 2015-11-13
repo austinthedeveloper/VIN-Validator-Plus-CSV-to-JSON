@@ -33,6 +33,11 @@ app
         checkExtension(newVal);
       }
     });
+    
+    $scope.remove = function(result) {
+      $scope.csv.result.splice(result, 1);
+      fileEach($scope.csv.result);
+    };
 
     function fileEach(object) {
       var patt = new RegExp(vinPattern);
